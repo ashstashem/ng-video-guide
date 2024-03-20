@@ -1,0 +1,39 @@
+<div class="header">
+  <div class="header__text">
+    <span>Movie Details</span>
+  </div>
+  <div class="header__action">
+    <p-button label="Back" icon="pi pi-arrow-left" (click)="goBack()"></p-button>
+    <p-button label="Logout" icon="pi pi-sign-out" (click)="logout()"></p-button>
+  </div>
+</div>
+<div class="details-container" *ngIf="details$ | async as details">
+  <p class="details-container__image">
+    <img [src]="getImageUrl(details.poster_path)">
+  </p>
+  <p-divider layout="vertical"></p-divider>
+  <div class="details-container__content">
+    <p class="details-container__content__title">
+      {{ details.title }}
+    </p>
+    <p class="details-container__content__tag">
+      {{ details.tagline }}
+    </p>
+    <p class="details-container__content__release">
+      {{ details.release_date | date: 'mediumDate'}}
+    </p>
+    <div class="details-container__content__genre">
+      @for (item of details.genres; track item.id) {
+        <p-chip [label]="item.name"></p-chip>
+      }
+    </div>
+    <p>
+      {{ details.overview }}
+    </p>
+    <p-rating [(ngModel)]="details.vote_average" [cancel]="false" [stars]="10" (onRate)="addRating($event.value, details.id)"></p-rating>
+    <div>
+      <span>Click stars to rate</span>
+    </div>
+  </div>
+
+</div>

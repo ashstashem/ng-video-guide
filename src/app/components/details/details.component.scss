@@ -1,0 +1,49 @@
+:host {
+  .header {
+    display: flex;
+    align-items: center;
+    height: 4rem;
+    background-color: #9ca3af;
+    border-radius: 4px;
+    padding: 10px;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    margin: 11px 0;
+
+    &__text {
+      display: flex;
+      width: 50%;
+      font-weight: bold;
+    }
+
+    &__action {
+      display: flex;
+      width: 50%;
+      justify-content: flex-end;
+      gap: 2px;
+    }
+  }
+
+  .details-container {
+    display: flex;
+    padding: 10px;
+
+    &__image img {
+      width: 300px;
+    }
+
+    &__content {
+      padding: 20px;
+
+      &__title, &__tag {
+        font-weight: bold;
+      }
+
+      &__genre {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        flex-wrap: wrap;
+      }
+    }
+  }
+}

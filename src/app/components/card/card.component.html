@@ -1,0 +1,11 @@
+<p-card header="{{cardInfo.title}}" subheader="Card Subheader" [style]="{ width: '360px' }">
+  <ng-template pTemplate="header">
+      <img alt="Card" [src]="getImageUrl(cardInfo.backdrop_path)" />
+  </ng-template>
+  <p>
+      {{cardInfo.overview}}
+  </p>
+  <ng-template pTemplate="footer">
+      <a [routerLink]="['/details', { id: cardInfo.id }]" routerLinkActive="router-link-active" rel="noopener noreferrer" class="p-button font-bold">More</a>
+  </ng-template>
+</p-card>

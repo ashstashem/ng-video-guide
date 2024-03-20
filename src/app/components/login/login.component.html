@@ -1,0 +1,23 @@
+<div class="card login-container">
+  <p-card header="Login" [style]="{ width: '360px' }">
+    <ng-template pTemplate="header">
+        <img alt="Card" src="https://primefaces.org/cdn/primeng/images/usercard.png" />
+    </ng-template>
+    <form [formGroup]="loginForm" class="login-container__form" (ngSubmit)="submit()">
+      <div class="flex flex-column gap-2">
+        <label for="username">Username</label>
+        <input pInputText id="username" formControlName="username" />
+      </div>
+      <div class="flex flex-column gap-2">
+        <label for="password">Password</label>
+        <input pInputText id="password" formControlName="password" />
+      </div>
+      <div class="flex flex-column gap-2">
+        <label for="api_key">Api key</label>
+        <input pInputText id="api_key" formControlName="api_key" />
+      </div>
+      <small style="color: red" *ngIf="invalidUsernamePass !== ''">{{invalidUsernamePass}}</small>
+      <button type="submit" pButton pRipple label="Login" [disabled]="!loginForm.valid"></button>
+    </form>
+  </p-card>
+</div>

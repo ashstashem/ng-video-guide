@@ -1,0 +1,14 @@
+<div class="header">
+  <div class="header__text">
+    <span>Movie Guide</span>
+  </div>
+  <div class="header__action">
+    <p-button label="Logout" icon="pi pi-sign-out" (click)="logout()"></p-button>
+  </div>
+</div>
+<div class="container">
+  <app-card *ngFor="let movie of (movies$ | async)" [cardInfo]="movie"></app-card>
+</div>
+<div class="flex-auto">
+  <p-paginator (onPageChange)="onPageChange($event)" [first]="first" [rows]="rows" [totalRecords]="totalRecords" [rows]="rowPerPage"></p-paginator>
+</div>
