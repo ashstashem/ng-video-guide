@@ -71,6 +71,7 @@ export class HomeComponent implements OnInit {
    * Returns user to login screen.
    */
   public logout(): void {
+    this.auth.api_key = undefined;
     localStorage.removeItem('loggedIn');
     this.router.navigate(['/login']);
   }

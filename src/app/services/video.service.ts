@@ -2,12 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MovieDetails, Results } from '../models/movie.model';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VideoService {
-  constructor(private http: HttpClient) {}
+  public api_key = this.authService.api_key;
+
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   /**
    * Get list of movies by page.
@@ -15,17 +18,8 @@ export class VideoService {
    * @returns Observable<Movie[]>
    */
   public getMovies(page: number = 1): Observable<Results> {
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization:
-        'Bearer access token', // TODO: use access token here(themoviedb account) think of better way to do this
-      },
-    };
     return this.http.get<Results>(
-      `https://api.themoviedb.org/3/discover/movie?page=${page}`,
-      options
+      `https://api.themoviedb.org/3/discover/movie?page=${page}&api_key=${this.api_key}`,
     );
   }
 
@@ -39,12 +33,10 @@ export class VideoService {
       method: 'GET',
       headers: {
         accept: 'application/json',
-        Authorization:
-        'Bearer access token', // TODO: use access token here(themoviedb account) think of better way to do this
       },
     };
     return this.http.get<MovieDetails>(
-      `https://api.themoviedb.org/3/movie/${id}`,
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${this.api_key}`,
       options
     );
   }
@@ -61,8 +53,6 @@ export class VideoService {
       headers: {
         accept: 'application/json',
         'Content-Type': 'application/json;charset=utf-8',
-        Authorization:
-        'Bearer access token', // TODO: use access token here(themoviedb account) think of better way to do this
       },
 
     };
@@ -72,7 +62,7 @@ export class VideoService {
     }
 
     return this.http.post(
-      `https://api.themoviedb.org/3/movie/${movie_id}/rating`,
+      `https://api.themoviedb.org/3/movie/${movie_id}/rating?api_key=${this.api_key}`,
       body,
       options
     );

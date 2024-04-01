@@ -11,13 +11,7 @@ import {
   providedIn: 'root',
 })
 export class AuthService {
-  private headerOptions = {
-    headers: {
-      accept: 'application/json',
-      Authorization:
-        'Bearer access token', // TODO: use access token here(themoviedb account) think of better way to do this
-    },
-  };
+  public api_key: string | undefined;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -25,11 +19,10 @@ export class AuthService {
    * Get auth token to authorise user.
    * @returns
    */
-  private getToken(): Observable<string> {
+  private getToken(key: string): Observable<string> {
     return this.httpClient
       .get<SuccessResponse>(
-        'https://api.themoviedb.org/3/authentication/token/new',
-        this.headerOptions
+        `https://api.themoviedb.org/3/authentication/token/new?api_key=${key}`,
       )
       .pipe(map((response) => response.request_token));
   }
@@ -49,8 +42,6 @@ export class AuthService {
       headers: {
         accept: 'application/json',
         'content-type': 'application/json',
-        Authorization:
-        'Bearer access token', // TODO: use access token here(themoviedb account) think of better way to do this
       },
     };
     const body = JSON.stringify({
@@ -59,7 +50,7 @@ export class AuthService {
       request_token: token,
     });
     return this.httpClient.post<SuccessResponse>(
-      `https://api.themoviedb.org/3/authentication/token/validate_with_login`,
+      `https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=${userDetails.api_key}`,
       body,
       options
     );
@@ -71,7 +62,9 @@ export class AuthService {
    * @returns
    */
   login(userDetails: UserDetails): Observable<SuccessResponse | ErrorResponse> {
-    return this.getToken().pipe(
+    this.api_key = userDetails.api_key;
+
+    return this.getToken(userDetails.api_key).pipe(
       switchMap((token) =>
         this.validateWithLogin(userDetails, token).pipe(
           catchError((errorResp) => of(errorResp.error))
